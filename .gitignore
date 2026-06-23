@@ -1,5 +1,6 @@
 logs/
 run/
+.tools/
 aider-venv/
 open-design/
 .env

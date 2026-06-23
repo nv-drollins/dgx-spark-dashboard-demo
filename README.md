@@ -32,6 +32,7 @@ On a freshly imaged Spark, `install.sh` can bootstrap the runtime dependencies i
 
 - Node.js 24 via NodeSource
 - base packages such as `curl`, `ca-certificates`, `gnupg`, `python3`, and `python3-venv`
+- a local OpenCode CLI install under `.tools/opencode/`
 - Ollama, if it is not already installed
 - the local `qwen3-coder:30b-48k-od` Ollama alias
 - an Aider virtual environment
@@ -110,6 +111,7 @@ Set `INSTALL_MODEL` or `INSTALL_AIDER` to `0` only if those pieces are already i
 3. Configure OpenCode for Open Design.
 
    ```bash
+   npm install --prefix .tools/opencode --no-audit --no-fund opencode-ai@latest
    export PATH="$PWD/bin:$PATH"
    export OPENCODE_CONFIG="$PWD/opencode/opencode.json"
    export OPENCODE_DISABLE_PROJECT_CONFIG=true
@@ -149,6 +151,16 @@ Set `INSTALL_MODEL` or `INSTALL_AIDER` to `0` only if those pieces are already i
    ```
 
    By default, this also starts Open Design at `http://127.0.0.1:7457/`.
+
+## Runtime Scripts
+
+Use `./start.sh` for normal demo startup. It starts Open Design first, then starts the live dashboard proxy.
+
+Use `./stop.sh` for normal shutdown. It stops both Open Design and the dashboard proxy.
+
+Use `./start-open-design.sh` only when you want to start or restart just the Open Design editor without touching the dashboard proxy.
+
+Use `./stop-open-design.sh` only when you want to stop just the Open Design editor and leave the dashboard proxy running. The filename includes the hyphen: `stop-open-design.sh`.
 
 ## Remote Laptop Access
 

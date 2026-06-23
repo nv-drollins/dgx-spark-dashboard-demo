@@ -88,6 +88,29 @@ ensure_node() {
   printf 'Node.js ready: %s (%s)\n' "$(node --version)" "$(command -v node)"
 }
 
+ensure_opencode_cli() {
+  local prefix real_bin
+  prefix="${DEMO_ROOT}/.tools/opencode"
+  real_bin="${prefix}/node_modules/.bin/opencode"
+
+  if [[ -x "${real_bin}" ]]; then
+    printf 'OpenCode CLI ready: %s\n' "${real_bin}"
+    return 0
+  fi
+
+  printf 'Installing OpenCode CLI locally...\n'
+  mkdir -p "${prefix}"
+  npm install --prefix "${prefix}" --no-audit --no-fund opencode-ai@latest
+
+  if [[ ! -x "${real_bin}" ]]; then
+    printf 'OpenCode install completed but %s was not created.\n' "${real_bin}" >&2
+    printf 'Install OpenCode manually with `npm install -g opencode-ai@latest`, then set REAL_OPENCODE if needed.\n' >&2
+    exit 1
+  fi
+
+  printf 'OpenCode CLI ready: %s\n' "${real_bin}"
+}
+
 ensure_ollama() {
   if ! command -v ollama >/dev/null 2>&1; then
     printf 'Installing Ollama...\n'
@@ -161,6 +184,8 @@ ensure_open_design() {
 ensure_base_packages
 
 ensure_node
+
+ensure_opencode_cli
 
 if [[ "${INSTALL_MODEL:-1}" == "1" ]]; then
   printf 'Configuring Ollama Qwen3-Coder alias...\n'
