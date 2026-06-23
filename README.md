@@ -221,13 +221,18 @@ Then open `http://127.0.0.1:11101/`.
 
 Use OpenCode/Qwen for full dashboard generation, asset bootstrap, API wiring, and any prompt that includes the design system or long Open Design context. OpenCode accepts the composed prompt through stdin, so it handles the larger prompts used by this demo.
 
-Use Aider only for small, targeted follow-up edits after `index.html` already exists. Keep Aider prompts short, reference `index.html` only, and avoid attaching the full design system context. The Open Design Aider adapter passes the composed prompt as a command-line argument, so very large runs can fail before Aider starts with:
+Use Aider only for small, targeted follow-up edits after `index.html` already exists. A tiny typed request can still fail if Open Design's composed prompt includes a long chat history, selected design-system context, project instructions, and the full dashboard file. The Open Design Aider adapter passes that composed prompt as a command-line argument, so very large runs can fail before Aider starts with:
 
 ```text
 Aider requires the prompt as a command-line argument and this run's composed prompt exceeds the safe size
 ```
 
-If that happens, rerun the edit with OpenCode or shorten the selected context before trying Aider again.
+If that happens, rerun the edit with OpenCode, start a fresh Open Design chat with only `index.html` selected, or run Aider directly from the generated project folder so it does not receive Open Design's full composed context:
+
+```bash
+cd /path/to/open-design/.od/projects/<project-id>
+/home/nvidia/dgx-spark-dashboard-demo/bin/aider --message "Edit index.html only. Make this one small layout change: ..."
+```
 
 The highest-impact lessons were:
 
