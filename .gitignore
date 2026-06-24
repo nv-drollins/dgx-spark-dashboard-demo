@@ -4,3 +4,5 @@ run/
 aider-venv/
 open-design/
 .env
+content-video-demo/*.mp4
+content-video-demo/output/

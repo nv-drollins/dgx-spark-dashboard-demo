@@ -1,0 +1,84 @@
+# Prompt & Pixel Teaser Video Demo
+
+This demo uses Open Design to generate a polished HTML promo card, then uses HyperFrames to render that HTML into a 6-second vertical MP4 teaser.
+
+It is intentionally local-first:
+
+- Open Design + OpenCode/Qwen create and edit the HTML.
+- HyperFrames renders the HTML composition locally.
+- Chromium and FFmpeg provide the local browser/video pipeline.
+
+## Assets
+
+```text
+assets/DESIGN.md         Prompt & Pixel brand system
+assets/announcement.md   Episode launch copy
+assets/cover.png         Square cover artwork
+```
+
+## One-Time Setup
+
+From this folder:
+
+```bash
+./scripts/install-renderer-deps.sh
+```
+
+The script installs the HyperFrames skill, checks for `ffmpeg`, and checks for a Chromium browser. On Ubuntu/Debian systems it can install missing packages with `sudo`.
+
+If Chromium is installed somewhere unusual, set:
+
+```bash
+export HYPERFRAMES_BROWSER_PATH=/path/to/chromium
+```
+
+## Open Design Flow
+
+1. Create a new Open Design project.
+2. Copy the three files from `assets/` into the project folder, or ask the agent to copy them first.
+3. Use `prompts/01-create-promo-card.md` to create the initial responsive HTML card.
+4. Use `prompts/02-convert-card-to-hyperframes.md` to convert the card into a valid HyperFrames composition.
+5. If the studio preview is blank because the paused render timeline starts at opacity `0`, use `prompts/03-fix-preview-autoplay.md`.
+
+The HyperFrames output should keep this structure:
+
+```html
+<div id="stage" data-composition-id="teaser" data-start="0" data-width="1080" data-height="1920" data-duration="6">
+  <div class="scene clip" data-start="0" data-duration="6" data-track-index="0">
+    <div class="scene-content">...</div>
+  </div>
+</div>
+```
+
+## Render
+
+From the Open Design project folder containing `index.html` and `cover.png`:
+
+```bash
+/home/nvidia/dgx-spark-dashboard-demo/content-video-demo/scripts/render-teaser.sh
+```
+
+Or from this demo folder, pass a project path:
+
+```bash
+./scripts/render-teaser.sh /path/to/open-design/.od/projects/<project-id>
+```
+
+The default output is `teaser.mp4` beside the `index.html` file.
+
+## Troubleshooting
+
+If the preview is blank, the GSAP timeline is probably paused at time `0`. Apply `prompts/03-fix-preview-autoplay.md`.
+
+If rendering cannot find Chromium, set:
+
+```bash
+export HYPERFRAMES_BROWSER_PATH="$(command -v chromium-browser || command -v chromium || command -v google-chrome)"
+```
+
+If `cover.png` is missing in the project folder, copy it beside `index.html` before rendering:
+
+```bash
+cp /home/nvidia/dgx-spark-dashboard-demo/content-video-demo/assets/cover.png .
+```
+

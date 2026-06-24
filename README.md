@@ -9,6 +9,11 @@ This package contains the working local DGX Spark dashboard demo flow:
 
 It focuses only on the local Ollama/OpenCode/Aider/proxy path that worked.
 
+## Included Demos
+
+- `dashboard/` is the DGX Spark live dashboard demo.
+- `content-video-demo/` is a Prompt & Pixel content-creator demo that generates a glassmorphism HTML promo card and renders it into a 6-second vertical MP4 with HyperFrames.
+
 ## What Runs
 
 The dashboard is static HTML, CSS, and JavaScript. Live data comes from the Spark dashboard API:
@@ -248,6 +253,7 @@ The highest-impact lessons were:
 dashboard/index.html                         Working dashboard
 assets/nvidia/                              Local brand assets and notes for new projects
 dashboard/assets/nvidia/                     Local brand assets and notes
+content-video-demo/                          HTML card to MP4 teaser workflow
 bin/dgx-dashboard-proxy.mjs                  Static server + DGX API proxy
 bin/opencode                                 OpenCode wrapper for Open Design
 bin/opencode-cli                             Open Design-compatible OpenCode entry
