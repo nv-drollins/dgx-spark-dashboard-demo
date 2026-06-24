@@ -24,9 +24,17 @@ From this folder:
 ./scripts/install-renderer-deps.sh
 ```
 
-The script installs the HyperFrames skill, checks for `ffmpeg`, and checks for a Chromium browser. On Ubuntu/Debian systems it can install missing packages with `sudo`.
+The script checks for `ffmpeg` and a Chromium browser. On Ubuntu/Debian systems it can install missing packages with `sudo`.
 
-If the script prints `PromptScript does not support global skill installation`, you can continue. The visual skill install is optional for this manual flow because `prompts/02-convert-card-to-hyperframes.md` tells Qwen to write the HyperFrames composition directly. The MP4 renderer still runs through `npx hyperframes render`.
+The HyperFrames visual skill install is optional for this manual flow because `prompts/02-convert-card-to-hyperframes.md` tells Qwen to write the HyperFrames composition directly. The MP4 renderer still runs through `npx hyperframes render`.
+
+If you want to try installing the visual skill picker anyway, run:
+
+```bash
+INSTALL_HYPERFRAMES_SKILL=1 ./scripts/install-renderer-deps.sh
+```
+
+If that prints `PromptScript does not support global skill installation`, skip it and continue with the manual prompts.
 
 If Chromium is installed somewhere unusual, set:
 

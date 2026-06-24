@@ -19,10 +19,11 @@ find_chromium() {
     || true
 }
 
-echo "Installing HyperFrames skill for Open Design, if the local PromptScript context supports it..."
-if ! (cd "${ROOT_DIR}" && npx --yes skills add heygen-com/hyperframes); then
-  cat <<'EOF'
-HyperFrames skill install was skipped.
+if [[ "${INSTALL_HYPERFRAMES_SKILL:-0}" == "1" ]]; then
+  echo "Installing HyperFrames skill for Open Design..."
+  if ! (cd "${ROOT_DIR}" && npx --yes skills add heygen-com/hyperframes); then
+    cat <<'EOF'
+HyperFrames skill install failed, but renderer dependency setup will continue.
 
 This is OK for the manual demo flow. PromptScript can reject global skill
 installation when the command is not run inside a supported local skill context.
@@ -31,6 +32,17 @@ The renderer itself is still provided by:
   npx --yes hyperframes render --output teaser.mp4
 
 Continue using the prompts in content-video-demo/prompts/.
+EOF
+  fi
+else
+  cat <<'EOF'
+Skipping HyperFrames skill install.
+
+This manual demo does not require the PromptScript skill picker because
+prompts/02-convert-card-to-hyperframes.md asks Qwen to write the HyperFrames
+composition directly. To try the optional skill install anyway, rerun with:
+
+  INSTALL_HYPERFRAMES_SKILL=1 ./scripts/install-renderer-deps.sh
 EOF
 fi
 
