@@ -43,6 +43,7 @@ On a freshly imaged Spark, `install.sh` can bootstrap the runtime dependencies i
 - Ollama, if it is not already installed
 - the local `qwen3-coder:30b-48k-od` Ollama alias
 - an Aider virtual environment
+- the Campaign Asset Pack Playwright/Chromium renderer under `campaign-pack/.tools/`
 - Open Design cloned into `open-design/` and installed with `pnpm`
 
 The bootstrap path assumes an Ubuntu/Debian-like system with network access and `sudo`. If packages or services need elevated privileges, the script will prompt for your password.
@@ -91,11 +92,12 @@ Installer toggles in `.env`:
 ```bash
 INSTALL_MODEL=1
 INSTALL_AIDER=1
+INSTALL_CAMPAIGN_RENDERER=1
 OD_WEB_PORT=7457
 OD_DAEMON_PORT=7456
 ```
 
-Set `INSTALL_MODEL` or `INSTALL_AIDER` to `0` only if those pieces are already installed. Open Design is mandatory for this demo flow.
+Set `INSTALL_MODEL`, `INSTALL_AIDER`, or `INSTALL_CAMPAIGN_RENDERER` to `0` only if those pieces are already installed or not needed. Open Design is mandatory for this demo flow.
 
 ## Demo
 
@@ -174,13 +176,13 @@ Optional repair prompts:
 
 Use this flow when you want the creator to art-direct a campaign while the final renderer stays fixed and predictable.
 
-One-time renderer setup:
+Renderer setup:
 
 ```bash
 ./campaign-pack/scripts/install-renderer-deps.sh
 ```
 
-This installs a local Playwright/Chromium screenshot renderer under `campaign-pack/.tools/`.
+The main `./install.sh` runs this by default when `INSTALL_CAMPAIGN_RENDERER=1`, so you only need to run it manually if you skipped that installer step or want to repair the renderer setup. It installs a local Playwright/Chromium screenshot renderer under `campaign-pack/.tools/`.
 
 Create a new Open Design project, then copy any campaign assets into that project folder. For a quick first run with existing repo assets:
 

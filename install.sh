@@ -13,6 +13,9 @@ fi
 
 mkdir -p logs run
 chmod +x start.sh stop.sh start-open-design.sh stop-open-design.sh bin/dgx-dashboard-proxy.mjs bin/opencode bin/opencode-cli bin/aider
+if [[ -d "campaign-pack/scripts" ]]; then
+  chmod +x campaign-pack/scripts/*.sh campaign-pack/scripts/*.mjs
+fi
 
 is_root() {
   [[ "${EUID}" -eq 0 ]]
@@ -192,6 +195,16 @@ ensure_open_design() {
   (cd "${open_design_dir}" && corepack pnpm install)
 }
 
+ensure_campaign_renderer() {
+  if [[ ! -x "${DEMO_ROOT}/campaign-pack/scripts/install-renderer-deps.sh" ]]; then
+    printf 'Campaign renderer setup script was not found; skipping.\n' >&2
+    return 0
+  fi
+
+  printf 'Configuring Campaign Asset Pack Playwright renderer...\n'
+  "${DEMO_ROOT}/campaign-pack/scripts/install-renderer-deps.sh"
+}
+
 ensure_base_packages
 
 ensure_node
@@ -222,6 +235,10 @@ if [[ "${INSTALL_AIDER:-1}" == "1" ]]; then
   fi
 fi
 
+if [[ "${INSTALL_CAMPAIGN_RENDERER:-1}" == "1" ]]; then
+  ensure_campaign_renderer
+fi
+
 ensure_open_design
 
 if [[ ! -f ".env" ]]; then
@@ -235,3 +252,4 @@ printf 'Dashboard URL after start: http://%s:%s/\n' "${DGX_DEMO_HOST:-127.0.0.1}
 printf 'Open Design URL after start: http://127.0.0.1:%s/\n' "${OD_WEB_PORT:-7457}"
 printf 'Open Design agent PATH: export PATH="%s/bin:$PATH"\n' "${DEMO_ROOT}"
 printf 'OpenCode config: export OPENCODE_CONFIG="%s/opencode/opencode.json"\n' "${DEMO_ROOT}"
+printf 'Campaign renderer test: node %s/campaign-pack/scripts/render-pack.mjs %s/campaign-pack/sample/campaign.json\n' "${DEMO_ROOT}" "${DEMO_ROOT}"
