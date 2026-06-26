@@ -164,7 +164,7 @@ The output is `teaser.mp4` beside the generated `index.html` in the Open Design 
 Optional repair prompts:
 
 - Use `content-video-demo/prompts/05-add-visible-motion.md` if the MP4 renders but looks too static.
-- Use `content-video-demo/prompts/04-repair-hyperframes-contract.md` if preflight reports missing HyperFrames attributes, bad timeline registration, or `repeat: -1`.
+- Use `content-video-demo/prompts/04-repair-hyperframes-contract.md` if preflight reports missing HyperFrames attributes, bad timeline registration, or `repeat: -1`. This is intended as a surgical repair that preserves the approved visual card.
 - Use `content-video-demo/prompts/06-remove-preview-autoplay-for-render.md` if render preflight reports `tl.play`.
 - Use `content-video-demo/prompts/07-fix-scene-wrapper-duration.md` if HyperFrames logs a scene missing `class="scene clip"` or `data-duration="6"`.
 - Use `content-video-demo/prompts/08-fix-video-size-and-framing.md` again if the output still looks too small or motion drifts out of frame.
