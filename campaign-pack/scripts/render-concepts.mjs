@@ -73,10 +73,10 @@ function findConceptFiles(path) {
 
   const names = readdirSync(path)
     .filter((name) => name.endsWith(".json"))
-    .filter((name) => /^(campaign|concept)(-|_)?[a-z0-9]*\.json$/i.test(name))
+    .filter((name) => /^(campaign|concept)([-_][a-z0-9]+)*\.json$/i.test(name))
     .sort();
 
-  const namedConcepts = names.filter((name) => /^(campaign|concept)[-_][a-z0-9]+\.json$/i.test(name));
+  const namedConcepts = names.filter((name) => /^(campaign|concept)([-_][a-z0-9]+)+\.json$/i.test(name));
   const selected = namedConcepts.length > 0 ? namedConcepts : names;
 
   return selected.map((name) => resolve(path, name));

@@ -78,11 +78,38 @@ exports/contact-sheet.html
 exports/contact-sheet.png
 ```
 
+## Colorway Variant Flow
+
+Use this after the creator picks a favorite concept direction.
+
+1. Start from an existing concept file, such as `campaign-a.json`.
+2. In Open Design, run `campaign-pack/prompts/04-create-colorway-variants.md`.
+3. Tell the assistant which base concept to use:
+
+   ```text
+   Use campaign-a.json as the base and create the colorway variants.
+   ```
+
+4. Render the variants and contact sheet:
+
+   ```bash
+   node campaign-pack/scripts/render-concepts.mjs open-design/.od/projects/<project-id>
+   ```
+
+The prompt writes files such as:
+
+```text
+campaign-a-green.json
+campaign-a-cyan-purple.json
+campaign-a-mono.json
+```
+
 ## Prompt Files
 
 - `prompts/01-create-campaign-json.md` creates the initial structured campaign direction.
 - `prompts/02-refine-campaign-json.md` is a reusable edit prompt for follow-up design direction.
 - `prompts/03-create-concept-set.md` creates three distinct campaign directions.
+- `prompts/04-create-colorway-variants.md` creates green, cyan/purple, and monochrome variants from an approved concept.
 
 ## Sample
 

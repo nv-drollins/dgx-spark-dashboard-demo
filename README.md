@@ -234,6 +234,23 @@ For a stronger ideation moment, use multi-concept review:
 
 This writes concept folders and `exports/contact-sheet.png`.
 
+For colorway variants after choosing a favorite concept:
+
+1. Run `campaign-pack/prompts/04-create-colorway-variants.md`.
+2. Tell Open Design which concept to use, for example:
+
+   ```text
+   Use campaign-a.json as the base and create the colorway variants.
+   ```
+
+3. Render the variants and review board:
+
+   ```bash
+   node campaign-pack/scripts/render-concepts.mjs open-design/.od/projects/<project-id>
+   ```
+
+This writes variant folders such as `exports/campaign-a-green/`, `exports/campaign-a-cyan-purple/`, and `exports/campaign-a-mono/`.
+
 ## Manual Install
 
 1. Install or verify Node.js.
