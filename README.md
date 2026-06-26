@@ -222,6 +222,18 @@ You can test the renderer without Open Design:
 node campaign-pack/scripts/render-pack.mjs campaign-pack/sample/campaign.json
 ```
 
+For a stronger ideation moment, use multi-concept review:
+
+1. Run `campaign-pack/prompts/03-create-concept-set.md` in an Open Design project.
+2. Iterate on `campaign-a.json`, `campaign-b.json`, or `campaign-c.json`.
+3. Render all concepts plus a review board:
+
+   ```bash
+   node campaign-pack/scripts/render-concepts.mjs open-design/.od/projects/<project-id>
+   ```
+
+This writes concept folders and `exports/contact-sheet.png`.
+
 ## Manual Install
 
 1. Install or verify Node.js.
