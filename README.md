@@ -46,7 +46,14 @@ On a freshly imaged Spark, `install.sh` can bootstrap the runtime dependencies i
 
 The bootstrap path assumes an Ubuntu/Debian-like system with network access and `sudo`. If packages or services need elevated privileges, the script will prompt for your password.
 
-From this directory:
+Clone the repo and enter it:
+
+```bash
+git clone https://github.com/nv-drollins/dgx-spark-dashboard-demo.git
+cd dgx-spark-dashboard-demo
+```
+
+Then run:
 
 ```bash
 cp .env.example .env
