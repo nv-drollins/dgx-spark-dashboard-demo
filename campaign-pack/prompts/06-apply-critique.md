@@ -1,19 +1,21 @@
-Apply the current critique to one campaign JSON file.
+Apply the current critique to one campaign JSON file in place.
 
 Read `critique.md` first. Then read the campaign JSON file named by the creator. If no file is named, use the source file listed in `critique.md`.
 
-Write one JSON file only:
+Edit the selected campaign JSON file directly. Do not create a separate `-revised.json` file.
+
+Before changing the selected file, verify that a matching before snapshot exists:
 
 ```text
-<base-name>-revised.json
+<base-name>-before.json
 ```
 
 Examples:
-- if the base is `campaign-a.json`, write `campaign-a-revised.json`
-- if the base is `campaign-a-cyan-purple.json`, write `campaign-a-cyan-purple-revised.json`
-- if the base is `campaign.json`, write `campaign-revised.json`
+- if editing `campaign-a.json`, verify `campaign-a-before.json` exists
+- if editing `campaign-a-cyan-purple.json`, verify `campaign-a-cyan-purple-before.json` exists
+- if editing `campaign.json`, verify `campaign-before.json` exists
 
-Do not edit the original JSON. Do not create or edit HTML, CSS, JavaScript, SVG, renderer, markdown, or image files.
+Do not edit the before snapshot. Do not create or edit HTML, CSS, JavaScript, SVG, renderer, markdown, image files, or any other JSON file.
 
 Preserve the base file's schema exactly:
 
@@ -65,4 +67,4 @@ Rules:
 - Do not include markdown fences in the JSON file.
 - Do not output JSON in chat.
 
-After writing the revised JSON, verify it exists and is valid JSON, then reply DONE.
+After editing the selected JSON, verify it still exists and is valid JSON, then reply DONE.

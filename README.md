@@ -255,18 +255,26 @@ For a stronger ideation moment, use the complete campaign workflow:
    Critique campaign-a-cyan-purple.json.
    ```
 
-7. Apply the critique with `campaign-pack/prompts/06-apply-critique.md`:
+7. Snapshot the selected campaign before applying critique:
+
+   ```bash
+   node campaign-pack/scripts/snapshot-campaign.mjs \
+     open-design/.od/projects/<project-id> \
+     campaign-a-cyan-purple.json
+   ```
+
+8. Apply the critique with `campaign-pack/prompts/06-apply-critique.md`:
 
    ```text
    Apply critique.md to campaign-a-cyan-purple.json.
    ```
 
-8. Render the before/after board:
+9. Render the before/after board:
 
    ```bash
    node campaign-pack/scripts/render-before-after.mjs \
-     open-design/.od/projects/<project-id>/campaign-a-cyan-purple.json \
-     open-design/.od/projects/<project-id>/campaign-a-cyan-purple-revised.json
+     open-design/.od/projects/<project-id>/campaign-a-cyan-purple-before.json \
+     open-design/.od/projects/<project-id>/campaign-a-cyan-purple.json
    ```
 
    This writes `exports/before-after/before-after.png`.

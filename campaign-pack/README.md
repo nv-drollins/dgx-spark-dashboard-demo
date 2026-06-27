@@ -147,19 +147,29 @@ Use this after the creator has a promising concept or colorway.
    ```
 
 3. Review the generated `critique.md` with the designer.
-4. In Open Design, run `campaign-pack/prompts/06-apply-critique.md`.
-5. Tell the assistant which file to revise:
+4. Snapshot the current campaign before applying changes:
+
+   ```bash
+   node campaign-pack/scripts/snapshot-campaign.mjs \
+     open-design/.od/projects/<project-id> \
+     campaign-a-cyan-purple.json
+   ```
+
+   This creates `campaign-a-cyan-purple-before.json` and leaves it untouched for comparison.
+
+5. In Open Design, run `campaign-pack/prompts/06-apply-critique.md`.
+6. Tell the assistant which file to revise in place:
 
    ```text
    Apply critique.md to campaign-a-cyan-purple.json.
    ```
 
-6. Render a before/after board:
+7. Render a before/after board:
 
    ```bash
    node campaign-pack/scripts/render-before-after.mjs \
-     open-design/.od/projects/<project-id>/campaign-a-cyan-purple.json \
-     open-design/.od/projects/<project-id>/campaign-a-cyan-purple-revised.json
+     open-design/.od/projects/<project-id>/campaign-a-cyan-purple-before.json \
+     open-design/.od/projects/<project-id>/campaign-a-cyan-purple.json
    ```
 
 The renderer writes:
@@ -185,6 +195,7 @@ exports/before-after/before-after.png
 - `scripts/prepare-project-assets.sh` copies stable local demo assets into an Open Design project.
 - `scripts/render-pack.mjs` exports one campaign JSON into four production PNGs.
 - `scripts/render-concepts.mjs` exports multiple campaign JSON files plus a contact sheet.
+- `scripts/snapshot-campaign.mjs` creates a before snapshot before critique changes are applied.
 - `scripts/render-before-after.mjs` exports two campaign JSON files and a before/after board.
 
 ## Sample

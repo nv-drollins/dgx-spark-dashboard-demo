@@ -10,13 +10,18 @@ const demoDir = resolve(scriptDir, "..");
 const renderPackScript = join(scriptDir, "render-pack.mjs");
 const localBrowsersPath = join(demoDir, ".tools/playwright-browsers");
 const beforePath = process.argv[2] ? resolve(process.argv[2]) : "";
-const afterPath = process.argv[3] ? resolve(process.argv[3]) : "";
+const requestedAfterPath = process.argv[3] ? resolve(process.argv[3]) : "";
 
-if (!beforePath || !afterPath) {
+if (!beforePath || !requestedAfterPath) {
   console.error("Usage: node campaign-pack/scripts/render-before-after.mjs before.json after.json [output-dir]");
   process.exit(1);
 }
 
+if (!existsSync(beforePath)) {
+  throw new Error(`Before JSON not found: ${beforePath}`);
+}
+
+const afterPath = resolveAfterPath(requestedAfterPath, beforePath);
 const outputRoot = resolve(process.argv[4] || join(dirname(afterPath), "exports", "before-after"));
 const beforeOut = join(outputRoot, "before");
 const afterOut = join(outputRoot, "after");
@@ -38,6 +43,35 @@ verifyPng(boardPng, 2400, 1400);
 console.log(`Before/after board: ${boardPng}`);
 console.log(`Before exports: ${beforeOut}`);
 console.log(`After exports: ${afterOut}`);
+
+function resolveAfterPath(afterCandidate, beforeCandidate) {
+  if (existsSync(afterCandidate)) {
+    return afterCandidate;
+  }
+
+  const fallback = afterCandidate.replace(/-revised\.json$/i, ".json");
+  if (fallback !== afterCandidate && existsSync(fallback)) {
+    if (resolve(fallback) === resolve(beforeCandidate)) {
+      throw new Error([
+        `After JSON not found: ${afterCandidate}`,
+        "",
+        "It looks like Open Design edited the selected file in place instead of creating a -revised.json file.",
+        "The before path you passed is that same selected file, so the original before version has probably been overwritten.",
+        "",
+        "Use the snapshot workflow next time:",
+        "  node campaign-pack/scripts/snapshot-campaign.mjs <project-dir> <selected-campaign.json>",
+        "  Apply critique to the selected JSON in place",
+        "  node campaign-pack/scripts/render-before-after.mjs <selected-campaign-before.json> <selected-campaign.json>"
+      ].join("\n"));
+    }
+
+    console.warn(`After JSON not found: ${afterCandidate}`);
+    console.warn(`Using in-place revised campaign instead: ${fallback}`);
+    return fallback;
+  }
+
+  throw new Error(`After JSON not found: ${afterCandidate}`);
+}
 
 function renderPack(jsonPath, outDir) {
   const result = spawnSync(process.execPath, [renderPackScript, jsonPath, outDir], {
